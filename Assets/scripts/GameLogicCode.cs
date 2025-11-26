@@ -35,7 +35,6 @@ public class GameLogicCode : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        label.text = "Hi!";
         initPos = transform.position;
     }
 

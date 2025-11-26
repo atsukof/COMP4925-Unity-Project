@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: cb028bc98584b45769e481772e675b1a
+guid: 6ff469ab6c58b4f11b58f227bc367752
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2952825899054097345
-    second: python_0
-  - first:
-      213: 557059006600849637
-    second: python_1
+      213: 7819645103376273
+    second: Character1F_1_land_0_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -54,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 30
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -112,17 +109,43 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: python_0
+      name: Character1F_1_land_0_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 132
-        width: 378
-        height: 380
+        x: 20
+        y: 15
+        width: 27
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,30 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1c361bca28b8af820800000000000000
-      internalID: 2952825899054097345
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: python_1
-      rect:
-        serializedVersion: 2
-        x: 132
-        y: 0
-        width: 379
-        height: 383
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5e8206f07321bb700800000000000000
-      internalID: 557059006600849637
+      spriteID: 19708a00de7cb1000800000000000000
+      internalID: 7819645103376273
       vertices: []
       indices: 
       edges: []
@@ -173,8 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      python_0: 2952825899054097345
-      python_1: 557059006600849637
+      Character1F_1_land_0_0: 7819645103376273
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -16,12 +16,13 @@ public class death_barrier : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
         if (collision.CompareTag("Player"))
         {
-            collision.GetComponent<PlayerHealth>().Die();
+            // Kill the player
+            GameManager.Instance.TakeDamage(GameManager.Instance.life);
             return;
         }
+
         Destroy(collision.gameObject);
     }
 }

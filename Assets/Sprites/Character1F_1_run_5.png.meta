@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d78e44f7e84944a7fa43bb0f12467a6a
+guid: 29f2048918e3942e086e73345dfcb294
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7472165943303264386
-    second: Character1F_1_run_4_0
+      213: -3070942323597974474
+    second: Character1F_1_run_5_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,17 +109,43 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Character1F_1_run_4_0
+      name: Character1F_1_run_5_0
       rect:
         serializedVersion: 2
-        x: 24
-        y: 18
-        width: 21
-        height: 33
+        x: 26
+        y: 15
+        width: 16
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 288dc51165772b760800000000000000
-      internalID: 7472165943303264386
+      spriteID: 634ea3c2a32d165d0800000000000000
+      internalID: -3070942323597974474
       vertices: []
       indices: 
       edges: []
@@ -148,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Character1F_1_run_4_0: 7472165943303264386
+      Character1F_1_run_5_0: -3070942323597974474
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

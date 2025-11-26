@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6ff469ab6c58b4f11b58f227bc367752
+guid: ae2522a8ec0ad406397ba939eadb9077
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7819645103376273
-    second: Character1F_1_land_0_0
+      213: 4744334957447282709
+    second: Character1F_1_punch_5_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,17 +109,43 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Character1F_1_land_0_0
+      name: Character1F_1_punch_5_0
       rect:
         serializedVersion: 2
-        x: 20
+        x: 24
         y: 15
-        width: 27
-        height: 24
+        width: 15
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 19708a00de7cb1000800000000000000
-      internalID: 7819645103376273
+      spriteID: 5100d1ad18347d140800000000000000
+      internalID: 4744334957447282709
       vertices: []
       indices: 
       edges: []
@@ -148,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Character1F_1_land_0_0: 7819645103376273
+      Character1F_1_punch_5_0: 4744334957447282709
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
