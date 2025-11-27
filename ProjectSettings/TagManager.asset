@@ -43,5 +43,17 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: 1Sky
+    uniqueID: 3666949911
+    locked: 0
+  - name: 2Trees
+    uniqueID: 462311169
+    locked: 0
+  - name: 3School
+    uniqueID: 4258940093
+    locked: 0
+  - name: 4Player
+    uniqueID: 173285693
+    locked: 0
   m_RenderingLayers:
   - Default
