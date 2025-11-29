@@ -10,6 +10,8 @@ public class ApiResponse<T>
 
 [Serializable]
 public class TokenData {
+    public string userId;
+    public string username;
     public string accessToken;
     public string refreshToken;
 }

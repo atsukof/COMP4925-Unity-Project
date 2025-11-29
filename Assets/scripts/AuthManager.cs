@@ -10,15 +10,19 @@ public static class AuthManager
 
     private const string ACCESS_KEY = "accessToken";
     private const string REFRESH_KEY = "refreshToken";
+    private const string USER_ID = "userId";
+    private const string USERNAME = "username";
     
     private static string API_BASE = "http://localhost:3000";
 
     // Save tokens to PlayerPrefs
-    public static void SaveTokens(string access, string refresh)
+    public static void SaveTokens(string userId, string username, string access, string refresh)
     {
         AccessToken = access;
         RefreshToken = refresh;
 
+        PlayerPrefs.SetString(USER_ID, userId);
+        PlayerPrefs.SetString(USERNAME, username);
         PlayerPrefs.SetString(ACCESS_KEY, access);
         PlayerPrefs.SetString(REFRESH_KEY, refresh);
         PlayerPrefs.Save();
@@ -46,8 +50,7 @@ public static class AuthManager
         return !string.IsNullOrEmpty(AccessToken);
     }
     
-    // MAIN FUNCTION: Refreshes the token when expired
-    public static IEnumerator RefreshAccessToken(System.Action<bool> callback)
+    public static IEnumerator RefreshAccessToken(Action<bool> callback)
     {
         if (string.IsNullOrEmpty(RefreshToken))
         {
@@ -68,14 +71,19 @@ public static class AuthManager
 
             if (res.ok)
             {
-                SaveTokens(res.data.accessToken, res.data.refreshToken);
+                // ⬅ Save NEW access + refresh tokens
+                SaveTokens(
+                    PlayerPrefs.GetString(USER_ID),
+                    PlayerPrefs.GetString(USERNAME),
+                    res.data.accessToken,
+                    res.data.refreshToken
+                );
+
                 callback(true);
-                yield break;
             }
         }
 
-        // If refresh fails → force logout
-        Reset();
+        Reset(); // force logout
         callback(false);
     }
 }

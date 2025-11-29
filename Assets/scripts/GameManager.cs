@@ -20,14 +20,21 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // retain after scene change
+            DontDestroyOnLoad(gameObject);
         }
-        else
+        else if (Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
 
         audioSource = GetComponent<AudioSource>();
+    }
+
+    void Start()
+    {
+        life = 3;
+        score = 0;
     }
 
     public void AddScore(int amount)

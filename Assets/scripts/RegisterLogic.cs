@@ -57,7 +57,7 @@ public class RegisterLogic : MonoBehaviour
         if (response.ok)
         {
             // Save tokens globally
-            AuthManager.SaveTokens(response.data.accessToken, response.data.refreshToken);
+            AuthManager.SaveTokens(response.data.userId, response.data.username, response.data.accessToken, response.data.refreshToken);
             
             levelManager.LoadMainMenu();
         }

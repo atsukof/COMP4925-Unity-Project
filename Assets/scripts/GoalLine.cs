@@ -1,27 +1,62 @@
+using System.Collections;
 using System.Numerics;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
 using Quaternion = UnityEngine.Quaternion;
 
 public class GoalLine : MonoBehaviour
 {
+    private string API_BASE_URL = "http://localhost:3000";
+    
     public GameObject clearParticlePrefab;  // set in Inspector
-    public float delay = 2f;
+    public float delay = 4f;
+    
     [Header("Input Fields")]
     [SerializeField] TextMeshProUGUI label;
+    [SerializeField] TextMeshProUGUI timeLabel;
+    
+    [Space(10)]
+    [Header("Game Objects")]
+    public GameManager gameManager;
+    
+    private float startTime;
+    private float levelDuration;
 
-    private void OnTriggerEnter2D(Collider2D other)
+    void Start()
+    {
+        startTime = Time.time;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        gameManager.ResetGame();
+    }
+
+    void Update()
+    {
+        float timePassed = Time.time - startTime;
+        string formatted = timePassed.ToString("F2");
+        timeLabel.text = $"Time: {formatted} Seconds" ;
+    }
+
+    private IEnumerator OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            label.text = "Congratulations!\nLevel Done";
+            levelDuration = Time.time - startTime;
+            string formatted  = levelDuration.ToString("F2");
+            label.text = $"Congratulations!\nLevel Done!\nTime: {formatted} Seconds";
+            
+            StartCoroutine(RecordLevelAttempt(formatted));
+            
+            
             // Spawn particle at player's position
             if (clearParticlePrefab != null)
             {
                 Instantiate(clearParticlePrefab, other.transform.position, Quaternion.identity);
             }
+            
+            yield return new WaitForSeconds(0.4f);
 
             // Load next scene after a delay
             Invoke(nameof(LoadNextScene), delay);
@@ -41,6 +76,33 @@ public class GoalLine : MonoBehaviour
         {
             // If no next scene, restart
             SceneManager.LoadScene("Scenes/MainMenu");
+        }
+    }
+    
+    private IEnumerator RecordLevelAttempt(string timeTaken)
+    {
+        WWWForm userLevelInfo = new WWWForm();
+        userLevelInfo.AddField("user_id", PlayerPrefs.GetString("userId"));
+        userLevelInfo.AddField("level_id", "1");
+        userLevelInfo.AddField("score", gameManager.score);
+        userLevelInfo.AddField("remaining_lives", gameManager.life);
+        userLevelInfo.AddField("timer", timeTaken);
+        
+        UnityWebRequest request = UnityWebRequest.Post(API_BASE_URL + "/record-level-attempt", userLevelInfo);
+        
+        // ADD JWT HEADER
+        request.SetRequestHeader("Authorization", "Bearer " + AuthManager.AccessToken);
+        
+        yield return request.SendWebRequest();
+        
+        Debug.Log("Raw Json:" + request.downloadHandler.text);
+
+        ApiResponse<TokenData> response = JsonUtility.FromJson<ApiResponse<TokenData>>(request.downloadHandler.text);
+        Debug.Log(response.msg);
+
+        if (response.ok)
+        {
+            // TODO Game logic
         }
     }
 }
