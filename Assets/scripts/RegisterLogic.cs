@@ -59,7 +59,7 @@ public class RegisterLogic : MonoBehaviour
             // Save tokens globally
             AuthManager.SaveTokens(response.data.accessToken, response.data.refreshToken);
             
-            levelManager.LoadLevel();
+            levelManager.LoadMainMenu();
         }
     }
 }

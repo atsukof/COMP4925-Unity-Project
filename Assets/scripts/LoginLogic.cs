@@ -60,7 +60,7 @@ public class LoginLogic : MonoBehaviour
             // Save tokens globally
             AuthManager.SaveTokens(response.data.accessToken, response.data.refreshToken);
             
-            levelManager.LoadLevel();
+            levelManager.LoadMainMenu();
         }
 
     }

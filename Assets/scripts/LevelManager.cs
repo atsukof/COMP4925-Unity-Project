@@ -3,6 +3,20 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene("Scenes/Main_menu");
+    }
+    
+    public void LoadLevel(string levelName)
+    {
+        SceneManager.LoadScene(levelName);
+    }
+
+    public void LoadStartLevel()
+    {
+        SceneManager.LoadScene("Scenes/Level 1");
+    }
 
     public void LoadLevel()
     {
@@ -17,6 +31,15 @@ public class LevelManager : MonoBehaviour
     public void LoadLogin()
     {
         SceneManager.LoadScene("Scenes/Login");
+    }
+
+    public void LoadQuit()
+    {
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+        AuthManager.Reset();
+        Application.Quit();
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
