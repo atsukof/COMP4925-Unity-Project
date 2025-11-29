@@ -1,4 +1,5 @@
 using System.Numerics;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,11 +9,14 @@ public class GoalLine : MonoBehaviour
 {
     public GameObject clearParticlePrefab;  // set in Inspector
     public float delay = 2f;
+    [Header("Input Fields")]
+    [SerializeField] TextMeshProUGUI label;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
+            label.text = "Congratulations!\nLevel Done";
             // Spawn particle at player's position
             if (clearParticlePrefab != null)
             {
@@ -36,7 +40,7 @@ public class GoalLine : MonoBehaviour
         else
         {
             // If no next scene, restart
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene("Scenes/MainMenu");
         }
     }
 }
