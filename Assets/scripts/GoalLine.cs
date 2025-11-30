@@ -17,19 +17,15 @@ public class GoalLine : MonoBehaviour
     [Header("Input Fields")]
     [SerializeField] TextMeshProUGUI label;
     [SerializeField] TextMeshProUGUI timeLabel;
-    
-    [Space(10)]
-    [Header("Game Objects")]
-    public GameManager gameManager;
-    
+    [SerializeField] private int levelId;
+
+
     private float startTime;
     private float levelDuration;
 
     void Start()
     {
         startTime = Time.time;
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        gameManager.ResetGame();
     }
 
     void Update()
@@ -46,7 +42,7 @@ public class GoalLine : MonoBehaviour
             levelDuration = Time.time - startTime;
             string formatted  = levelDuration.ToString("F2");
             label.text = $"Congratulations!\nLevel Done!\nTime: {formatted} Seconds";
-            
+
             StartCoroutine(RecordLevelAttempt(formatted));
             
             
@@ -83,9 +79,9 @@ public class GoalLine : MonoBehaviour
     {
         WWWForm userLevelInfo = new WWWForm();
         userLevelInfo.AddField("user_id", PlayerPrefs.GetString("userId"));
-        userLevelInfo.AddField("level_id", "1");
-        userLevelInfo.AddField("score", gameManager.score);
-        userLevelInfo.AddField("remaining_lives", gameManager.life);
+        userLevelInfo.AddField("level_id", levelId);
+        userLevelInfo.AddField("score", GameManager.Instance.score);
+        userLevelInfo.AddField("remaining_lives", GameManager.Instance.life);
         userLevelInfo.AddField("timer", timeTaken);
         
         UnityWebRequest request = UnityWebRequest.Post(API_BASE_URL + "/record-level-attempt", userLevelInfo);
