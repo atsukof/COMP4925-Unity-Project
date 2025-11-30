@@ -18,6 +18,7 @@ public class GoalLine : MonoBehaviour
     [SerializeField] TextMeshProUGUI label;
     [SerializeField] TextMeshProUGUI timeLabel;
     [SerializeField] private int levelId;
+    [SerializeField] private AudioClip goalSound;
 
 
     private float startTime;
@@ -39,6 +40,15 @@ public class GoalLine : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            if (goalSound != null)
+                AudioSource.PlayClipAtPoint(goalSound, Camera.main.transform.position, 0.6f);
+
+            // Spawn particle at player's position
+            if (clearParticlePrefab != null)
+            {
+                Instantiate(clearParticlePrefab, other.transform.position, Quaternion.identity);
+            }
+
             levelDuration = Time.time - startTime;
             string formatted  = levelDuration.ToString("F2");
             label.text = $"Congratulations!\nLevel Done!\nTime: {formatted} Seconds";
@@ -46,11 +56,6 @@ public class GoalLine : MonoBehaviour
             StartCoroutine(RecordLevelAttempt(formatted));
             
             
-            // Spawn particle at player's position
-            if (clearParticlePrefab != null)
-            {
-                Instantiate(clearParticlePrefab, other.transform.position, Quaternion.identity);
-            }
             
             yield return new WaitForSeconds(0.4f);
 

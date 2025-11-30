@@ -7,21 +7,6 @@ using System;
 
 public class GameLogicCode : MonoBehaviour
 {
-    [Header("Input Fields")]
-    [SerializeField] TextMeshProUGUI label;
-
-    [Space(10)]
-    [Header("Prefabs")]
-    [SerializeField] GameObject face_prefab;
-
-    [Space(10)]
-    [Header("Variables")]
-    [Range(0.1f, 20f)][SerializeField] float period = 1.0f;
-
-    [Space(10)]
-    [Header("Audio")]
-    [SerializeField] AudioPlayer itemSound;
-
     [Header("Camera Follow")]
     [SerializeField] private Transform player;
 
