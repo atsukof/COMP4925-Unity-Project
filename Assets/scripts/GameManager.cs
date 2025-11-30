@@ -2,6 +2,7 @@ using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityEngine.Networking;
 using Debug = UnityEngine.Debug;
 
 public class GameManager : MonoBehaviour
@@ -13,6 +14,9 @@ public class GameManager : MonoBehaviour
 
     public int life = 3;
     public int score = 0;
+    public float fastestTime = 0f;
+    
+    private ApiHandler apiHandler;
 
     private void Awake()
     {
@@ -27,7 +31,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
+        
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -35,6 +39,8 @@ public class GameManager : MonoBehaviour
     {
         life = 3;
         score = 0;
+        apiHandler = GameObject.Find("ApiHandler").GetComponent<ApiHandler>();
+        
     }
 
     public void AddScore(int amount)
@@ -75,6 +81,24 @@ public class GameManager : MonoBehaviour
     {
         life = 3;
         score = 0;
+        fastestTime = 0f;
     }
+
+    public void setFastestTime(int level_id)
+    {
+        StartCoroutine(ApiHandler.Instance.getFastestTime(level_id, result =>
+        {
+            if (result == null)
+            {
+                Debug.Log("Could not load fastest time");
+                fastestTime = 0f;
+                return;
+            }
+
+            fastestTime = result.timerSeconds;
+            Debug.Log("Fastest time = " + result.timerSeconds);
+        }));
+    }
+    
 
 }

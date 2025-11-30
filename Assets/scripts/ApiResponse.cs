@@ -15,3 +15,8 @@ public class TokenData {
     public string accessToken;
     public string refreshToken;
 }
+
+[Serializable]
+public class FastestTimeData {
+    public float timerSeconds;
+}

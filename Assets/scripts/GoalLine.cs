@@ -19,13 +19,14 @@ public class GoalLine : MonoBehaviour
     [SerializeField] TextMeshProUGUI timeLabel;
     [SerializeField] private int levelId;
 
-
     private float startTime;
     private float levelDuration;
 
     void Start()
     {
         startTime = Time.time;
+        GameManager.Instance.ResetGame();
+        GameManager.Instance.setFastestTime( levelId + 1);
     }
 
     void Update()
@@ -40,8 +41,13 @@ public class GoalLine : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             levelDuration = Time.time - startTime;
+            string newFastestTime = "";
+            if (levelDuration < GameManager.Instance.fastestTime)
+            {
+                newFastestTime = $"New time Record!";
+            }
             string formatted  = levelDuration.ToString("F2");
-            label.text = $"Congratulations!\nLevel Done!\nTime: {formatted} Seconds";
+            label.text = $"Congratulations!\nLevel Done!\nTime: {formatted} Seconds" + newFastestTime;
 
             StartCoroutine(RecordLevelAttempt(formatted));
             
@@ -79,7 +85,7 @@ public class GoalLine : MonoBehaviour
     {
         WWWForm userLevelInfo = new WWWForm();
         userLevelInfo.AddField("user_id", PlayerPrefs.GetString("userId"));
-        userLevelInfo.AddField("level_id", levelId);
+        userLevelInfo.AddField("level_id", levelId + 1);
         userLevelInfo.AddField("score", GameManager.Instance.score);
         userLevelInfo.AddField("remaining_lives", GameManager.Instance.life);
         userLevelInfo.AddField("timer", timeTaken);
