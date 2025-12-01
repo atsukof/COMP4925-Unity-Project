@@ -42,7 +42,7 @@ public class GoalLine : MonoBehaviour
         {
             levelDuration = Time.time - startTime;
             string newFastestTime = "";
-            if (levelDuration < GameManager.Instance.fastestTime)
+            if (GameManager.Instance.fastestTime == 0 || levelDuration < GameManager.Instance.fastestTime)
             {
                 newFastestTime = $"New time Record!";
             }
@@ -85,7 +85,7 @@ public class GoalLine : MonoBehaviour
     {
         WWWForm userLevelInfo = new WWWForm();
         userLevelInfo.AddField("user_id", PlayerPrefs.GetString("userId"));
-        userLevelInfo.AddField("level_id", levelId + 1);
+        userLevelInfo.AddField("level_id", levelId);
         userLevelInfo.AddField("score", GameManager.Instance.score);
         userLevelInfo.AddField("remaining_lives", GameManager.Instance.life);
         userLevelInfo.AddField("timer", timeTaken);

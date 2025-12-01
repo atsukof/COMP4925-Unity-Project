@@ -46,6 +46,9 @@ TagManager:
   - name: 1Sky
     uniqueID: 3666949911
     locked: 0
+  - name: clouds
+    uniqueID: 1266697001
+    locked: 0
   - name: 2Trees
     uniqueID: 462311169
     locked: 0
