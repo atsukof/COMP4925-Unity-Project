@@ -1,10 +1,12 @@
+using System.Diagnostics;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
-public class Item : MonoBehaviour
+public class Obstacle : MonoBehaviour
 {
     [Header("Effects")]
-    [SerializeField] private bool addScoreToPlayer = true;
-    [SerializeField] private int scoreAmount = 1;
+    [SerializeField] private bool dealDamageToPlayer = true;
+    [SerializeField] private int damageAmount = 1;
     [SerializeField] private AudioClip hitSound;
 
     [Header("Destroy Settings")]
@@ -33,8 +35,8 @@ public class Item : MonoBehaviour
             if (hitSound != null)
                 AudioSource.PlayClipAtPoint(hitSound, Camera.main.transform.position);
 
-            if (addScoreToPlayer)
-                GameManager.Instance.AddScore(scoreAmount);
+            if (dealDamageToPlayer)
+                GameManager.Instance.TakeDamage(damageAmount);
 
             Destroy(gameObject, destroyDelayOnPlayer);
             isDestroyed = true;
@@ -49,4 +51,3 @@ public class Item : MonoBehaviour
         }
     }
 }
-

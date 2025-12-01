@@ -10,7 +10,7 @@ using Quaternion = UnityEngine.Quaternion;
 public class Spawner : MonoBehaviour
 {
     public Transform player;
-    public float xOffset = 10f;   // ahead of player
+    public float xOffset = 4f;   // ahead of player
 
     public GameObject obstaclePrefab;
     public GameObject itemPrefab;

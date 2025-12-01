@@ -1,13 +1,16 @@
 fileFormatVersion: 2
-guid: cb028bc98584b45769e481772e675b1a
+guid: 79701769ed5774de79d665eae153a907
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2952825899054097345
-    second: python_0
+      213: 7762526562980988420
+    second: twinkle_0
   - first:
-      213: 557059006600849637
-    second: python_1
+      213: -8646018599949562647
+    second: twinkle_1
+  - first:
+      213: 3562253224136111334
+    second: twinkle_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -49,7 +52,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -112,43 +115,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: iOS
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: python_0
+      name: twinkle_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 132
-        width: 378
-        height: 380
+        x: 127
+        y: 167
+        width: 562
+        height: 647
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -157,20 +134,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1c361bca28b8af820800000000000000
-      internalID: 2952825899054097345
+      spriteID: 406040a08c80abb60800000000000000
+      internalID: 7762526562980988420
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: python_1
+      name: twinkle_1
       rect:
         serializedVersion: 2
-        x: 132
-        y: 0
-        width: 379
-        height: 383
+        x: 631
+        y: 679
+        width: 194
+        height: 225
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,8 +156,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5e8206f07321bb700800000000000000
-      internalID: 557059006600849637
+      spriteID: 9ec069454eb230880800000000000000
+      internalID: -8646018599949562647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: twinkle_2
+      rect:
+        serializedVersion: 2
+        x: 639
+        y: 167
+        width: 297
+        height: 218
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e47f980f6aaf6130800000000000000
+      internalID: 3562253224136111334
       vertices: []
       indices: 
       edges: []
@@ -189,7 +188,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -199,8 +198,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      python_0: 2952825899054097345
-      python_1: 557059006600849637
+      twinkle_0: 7762526562980988420
+      twinkle_1: -8646018599949562647
+      twinkle_2: 3562253224136111334
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
