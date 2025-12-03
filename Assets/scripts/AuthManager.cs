@@ -13,7 +13,7 @@ public static class AuthManager
     private const string USER_ID = "userId";
     private const string USERNAME = "username";
     
-    private static string API_BASE = "http://localhost:3000";
+    private static string API_BASE = "https://unity-project-backend.onrender.com";
 
     // Save tokens to PlayerPrefs
     public static void SaveTokens(string userId, string username, string access, string refresh)
@@ -58,10 +58,9 @@ public static class AuthManager
             yield break;
         }
 
-        WWWForm form = new WWWForm();
-        form.AddField("refreshToken", RefreshToken);
+        UnityWebRequest req = UnityWebRequest.PostWwwForm(API_BASE + "/refresh-token", "");
+        req.SetRequestHeader("Authorization", "Bearer " + RefreshToken);
 
-        UnityWebRequest req = UnityWebRequest.Post(API_BASE + "/refresh-token", form);
         yield return req.SendWebRequest();
 
         if (req.result == UnityWebRequest.Result.Success)
@@ -71,7 +70,6 @@ public static class AuthManager
 
             if (res.ok)
             {
-                // ⬅ Save NEW access + refresh tokens
                 SaveTokens(
                     PlayerPrefs.GetString(USER_ID),
                     PlayerPrefs.GetString(USERNAME),
@@ -80,10 +78,11 @@ public static class AuthManager
                 );
 
                 callback(true);
+                yield break;
             }
         }
 
-        Reset(); // force logout
+        Reset();
         callback(false);
     }
 }

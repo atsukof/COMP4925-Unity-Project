@@ -13,7 +13,7 @@ public class LoginLogic : MonoBehaviour
     [SerializeField] TMP_InputField password_input;
     private LevelManager levelManager;
     
-    private string API_BASE_URL = "http://localhost:3000";
+    private string API_BASE_URL = "https://unity-project-backend.onrender.com";
 
     public void Awake()
     {

@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 
 public class ApiHandler : MonoBehaviour
 {
-    private string API_BASE_URL = "http://localhost:3000";
+    private string API_BASE_URL = "https://unity-project-backend.onrender.com";
 
     public static ApiHandler Instance;
     
@@ -34,29 +34,18 @@ public class ApiHandler : MonoBehaviour
     
     public IEnumerator getFastestTime(int levelId, Action<FastestTimeData> onResult)
     {
-        WWWForm userFastestTime = new WWWForm();
-        userFastestTime.AddField("level_id", levelId);
-        
-        UnityWebRequest request = UnityWebRequest.Get(API_BASE_URL + $"/fastest-time?level_id={levelId}");
-        
-        // ADD JWT HEADER
-        request.SetRequestHeader("Authorization", "Bearer " + AuthManager.AccessToken);
-        
-        yield return request.SendWebRequest();
-        
-        Debug.Log("Raw Json:" + request.downloadHandler.text);
+        var request = UnityWebRequest.Get(API_BASE_URL + $"/fastest-time?level_id={levelId}");
 
-        ApiResponse<FastestTimeData> response = JsonUtility.FromJson<ApiResponse<FastestTimeData>>(request.downloadHandler.text);
-        Debug.Log(response.msg);
+        yield return SendAuthenticatedRequest(request, (res) =>
+        {
+            ApiResponse<FastestTimeData> response =
+                JsonUtility.FromJson<ApiResponse<FastestTimeData>>(res.downloadHandler.text);
 
-        if (response.ok)
-        {
-            onResult?.Invoke(response.data);  // <-- return value here
-        }
-        else
-        {
-            onResult?.Invoke(null); // or some error indicator
-        }
+            if (response.ok)
+                onResult?.Invoke(response.data);
+            else
+                onResult?.Invoke(null);
+        });
     }
 
     public IEnumerator getTotalScore(Action<TotalScoreData> onResult)
@@ -65,39 +54,98 @@ public class ApiHandler : MonoBehaviour
         // ADD JWT HEADER
         request.SetRequestHeader("Authorization", "Bearer " + AuthManager.AccessToken);
         
-        yield return request.SendWebRequest();
-        
-        ApiResponse<TotalScoreData> response = JsonUtility.FromJson<ApiResponse<TotalScoreData>>(request.downloadHandler.text);
-        
-        if (response.ok)
+        yield return SendAuthenticatedRequest(request, (res) =>
         {
-            onResult?.Invoke(response.data);  // <-- return value here
-        }
-        else
-        {
-            onResult?.Invoke(null); // or some error indicator
-        }
+            ApiResponse<TotalScoreData> response =
+                JsonUtility.FromJson<ApiResponse<TotalScoreData>>(res.downloadHandler.text);
+
+            if (response.ok)
+                onResult?.Invoke(response.data);
+            else
+                onResult?.Invoke(null);
+        });
     }
     
     public IEnumerator getLevelCompleted(Action<LevelCompleteData> onResult)
     {
-        UnityWebRequest request = UnityWebRequest.Get(API_BASE_URL + $"/retrieve-level-completed");
-        
-        // ADD JWT HEADER
+        var request = UnityWebRequest.Get(API_BASE_URL + "/retrieve-level-completed");
+
+        yield return SendAuthenticatedRequest(request, (res) =>
+        {
+            ApiResponse<LevelCompleteData> response =
+                JsonUtility.FromJson<ApiResponse<LevelCompleteData>>(res.downloadHandler.text);
+
+            if (response.ok)
+                onResult?.Invoke(response.data);
+            else
+                onResult?.Invoke(null);
+        });
+    }
+    
+    private IEnumerator SendAuthenticatedRequest(UnityWebRequest request, Action<UnityWebRequest> onDone)
+    {
+        // 1. Add access token
         request.SetRequestHeader("Authorization", "Bearer " + AuthManager.AccessToken);
-        
+
+        // 2. Send request
         yield return request.SendWebRequest();
-        
-        ApiResponse<LevelCompleteData> response = JsonUtility.FromJson<ApiResponse<LevelCompleteData>>(request.downloadHandler.text);
-        
-        Debug.Log(response.data.levelCompleted);
-        if (response.ok)
+
+        // 3. If unauthorized → attempt refresh
+        if (request.responseCode == 401)
         {
-            onResult?.Invoke(response.data);  // <-- return value here
+            Debug.LogWarning("Access expired → trying refresh token...");
+
+            bool refreshed = false;
+            yield return AuthManager.RefreshAccessToken(success => refreshed = success);
+
+            if (!refreshed)
+            {
+                Debug.LogError("Refresh failed → user logged out");
+                onDone?.Invoke(request);
+                SceneManager.LoadScene("Scenes/Login");
+                yield break;
+            }
+
+            // 4. Retry the request with NEW access token
+            UnityWebRequest retry = UnityWebRequest.Get(request.url);
+            retry.SetRequestHeader("Authorization", "Bearer " + AuthManager.AccessToken);
+
+            yield return retry.SendWebRequest();
+
+            onDone?.Invoke(retry);
+            yield break;
         }
-        else
+
+        // Normal result
+        onDone?.Invoke(request);
+    }
+
+    
+    public IEnumerator SendRequest(UnityWebRequest req, Action<string> callback)
+    {
+        req.SetRequestHeader("Authorization", "Bearer " + AuthManager.AccessToken);
+
+        yield return req.SendWebRequest();
+
+        // If Access Token expired → try refresh
+        if (req.responseCode == 401)
         {
-            onResult?.Invoke(null); // or some error indicator
+            bool refreshed = false;
+            yield return AuthManager.RefreshAccessToken(result => refreshed = result);
+
+            if (refreshed)
+            {
+                req.SetRequestHeader("Authorization", "Bearer " + AuthManager.AccessToken);
+                yield return req.SendWebRequest();
+            }
+            else
+            {
+                callback("ERROR: SESSION EXPIRED");
+                SceneManager.LoadScene("Scenes/Login");
+                yield break;
+            }
         }
+
+        callback(req.downloadHandler.text);
     }
 }

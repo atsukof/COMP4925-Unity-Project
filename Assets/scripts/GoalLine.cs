@@ -9,7 +9,7 @@ using Quaternion = UnityEngine.Quaternion;
 
 public class GoalLine : MonoBehaviour
 {
-    private string API_BASE_URL = "http://localhost:3000";
+    private string API_BASE_URL = "https://unity-project-backend.onrender.com";
     
     public GameObject clearParticlePrefab;  // set in Inspector
     public float delay = 4f;
@@ -116,29 +116,22 @@ public class GoalLine : MonoBehaviour
     
     private IEnumerator RecordLevelAttempt(string timeTaken)
     {
-        Debug.Log("Record level attempt");
-        WWWForm userLevelInfo = new WWWForm();
-        userLevelInfo.AddField("user_id", PlayerPrefs.GetString("userId"));
-        userLevelInfo.AddField("level_id", levelId);
-        userLevelInfo.AddField("score", GameManager.Instance.score);
-        userLevelInfo.AddField("remaining_lives", GameManager.Instance.life);
-        userLevelInfo.AddField("timer", timeTaken);
-        
-        UnityWebRequest request = UnityWebRequest.Post(API_BASE_URL + "/record-level-attempt", userLevelInfo);
-        
-        // ADD JWT HEADER
-        request.SetRequestHeader("Authorization", "Bearer " + AuthManager.AccessToken);
-        
-        yield return request.SendWebRequest();
-        
-        Debug.Log("Raw Json:" + request.downloadHandler.text);
+        WWWForm form = new WWWForm();
+        form.AddField("user_id", PlayerPrefs.GetString("userId"));
+        form.AddField("level_id", levelId);
+        form.AddField("score", GameManager.Instance.score);
+        form.AddField("remaining_lives", GameManager.Instance.life);
+        form.AddField("timer", timeTaken);
 
-        ApiResponse<TokenData> response = JsonUtility.FromJson<ApiResponse<TokenData>>(request.downloadHandler.text);
-        Debug.Log(response.msg);
+        UnityWebRequest req = UnityWebRequest.Post(API_BASE_URL + "/record-level-attempt", form);
 
-        if (response.ok)
+        yield return ApiHandler.Instance.SendRequest(req, (json) =>
         {
-            // TODO Game logic
-        }
+            Debug.Log("Response: " + json);
+
+            ApiResponse<TokenData> res = JsonUtility.FromJson<ApiResponse<TokenData>>(json);
+        
+            if (!res.ok) Debug.LogWarning("Record failed");
+        });
     }
 }
