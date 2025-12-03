@@ -27,7 +27,7 @@ public class GoalLine : MonoBehaviour
     {
         startTime = Time.time;
         GameManager.Instance.ResetGame();
-        GameManager.Instance.setFastestTime( levelId + 1);
+        GameManager.Instance.setFastestTime( levelId);
     }
 
     void Update()
@@ -37,57 +37,95 @@ public class GoalLine : MonoBehaviour
         timeLabel.text = $"Time: {formatted} Seconds" ;
     }
 
-    private IEnumerator OnTriggerEnter2D(Collider2D other)
+    // private IEnumerator OnTriggerEnter2D(Collider2D other)
+    // {
+    //     if (other.CompareTag("Player"))
+    //     {
+    //         if (goalSound != null)
+    //             AudioSource.PlayClipAtPoint(goalSound, Camera.main.transform.position, 0.6f);
+    //
+    //         // Spawn particle at player's position
+    //         if (clearParticlePrefab != null)
+    //         {
+    //             Instantiate(clearParticlePrefab, other.transform.position, Quaternion.identity);
+    //         }
+    //
+    //         levelDuration = Time.time - startTime;
+    //         string newFastestTime = "";
+    //         if (GameManager.Instance.fastestTime == 0 || levelDuration < GameManager.Instance.fastestTime)
+    //         {
+    //             newFastestTime = $"\nNew time Record!";
+    //         }
+    //         string formatted  = levelDuration.ToString("F2");
+    //         label.text = $"Congratulations!\nLevel Done!\nTime: {formatted} Seconds" + newFastestTime;
+    //
+    //         StartCoroutine(RecordLevelAttempt(formatted));
+    //         
+    //         
+    //         yield return new WaitForSeconds(0.4f);
+    //         
+    //
+    //         // Load next scene after a delay
+    //         Invoke(nameof(LoadNextScene), delay);
+    //     }
+    // }
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        StartCoroutine(HandleGoal(other));
+    }
+    
+    private IEnumerator HandleGoal(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
             if (goalSound != null)
                 AudioSource.PlayClipAtPoint(goalSound, Camera.main.transform.position, 0.6f);
 
-            // Spawn particle at player's position
             if (clearParticlePrefab != null)
-            {
                 Instantiate(clearParticlePrefab, other.transform.position, Quaternion.identity);
-            }
 
             levelDuration = Time.time - startTime;
+        
+            string formatted = levelDuration.ToString("F2");
             string newFastestTime = "";
+
             if (GameManager.Instance.fastestTime == 0 || levelDuration < GameManager.Instance.fastestTime)
-            {
-                newFastestTime = $"New time Record!";
-            }
-            string formatted  = levelDuration.ToString("F2");
+                newFastestTime = "\nNew time Record!";
+
             label.text = $"Congratulations!\nLevel Done!\nTime: {formatted} Seconds" + newFastestTime;
 
+            // Fire API without blocking game flow
             StartCoroutine(RecordLevelAttempt(formatted));
-            
-            
-            
-            yield return new WaitForSeconds(0.4f);
 
-            // Load next scene after a delay
+            yield return new WaitForSeconds(0.4f);
             Invoke(nameof(LoadNextScene), delay);
         }
     }
+
 
     void LoadNextScene()
     {
         int next = SceneManager.GetActiveScene().buildIndex + 1;
 
+        Debug.Log("I get here");
         // If next scene exists
         if (next < SceneManager.sceneCountInBuildSettings)
         {
+            Debug.Log("Next scene:" + SceneManager.GetActiveScene().name);
             SceneManager.LoadScene(next);
         }
         else
         {
             // If no next scene, restart
-            SceneManager.LoadScene("Scenes/MainMenu");
+            Debug.Log("Next scene not found");
+            SceneManager.LoadScene("Scenes/Main_menu");
         }
     }
     
     private IEnumerator RecordLevelAttempt(string timeTaken)
     {
+        Debug.Log("Record level attempt");
         WWWForm userLevelInfo = new WWWForm();
         userLevelInfo.AddField("user_id", PlayerPrefs.GetString("userId"));
         userLevelInfo.AddField("level_id", levelId);
