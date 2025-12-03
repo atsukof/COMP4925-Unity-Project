@@ -19,9 +19,9 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene("Scenes/Level 1");
     }
 
-    public void LoadLevel()
+    public void LoadLevel2()
     {
-        SceneManager.LoadScene("Scenes/Level 1");
+        SceneManager.LoadScene("Scenes/Level 2");
     }
 
     public void LoadRegister()

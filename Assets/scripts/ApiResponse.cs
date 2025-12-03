@@ -20,3 +20,15 @@ public class TokenData {
 public class FastestTimeData {
     public float timerSeconds;
 }
+
+[Serializable]
+public class TotalScoreData
+{
+    public int totalScore;
+}
+
+[Serializable]
+public class LevelCompleteData
+{
+    public int levelCompleted;
+}

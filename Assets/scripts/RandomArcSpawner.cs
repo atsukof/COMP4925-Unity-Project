@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SpawnerArcRandom : MonoBehaviour
 {
@@ -19,24 +21,50 @@ public class SpawnerArcRandom : MonoBehaviour
     public float maxAngle = 60f;  // maximum launch angle in degrees
 
     private float timer = 0f;
+    
+    public bool paused = false;
+    
+
+    public void Start()
+    {
+        paused = false;
+    }
+
+    public void Awake()
+    {
+        paused = false;
+    }
+
+    public void Pause()
+    {
+        paused = true;
+    }
+
+    public void Resume()
+    {
+        paused = false;
+    }
 
     void Update()
     {
-        // Move the spawner ahead of the player
-        if (player != null)
+        if (!paused)
         {
-            Vector3 pos = transform.position;
-            pos.x = player.position.x + xOffset;
-            transform.position = pos;
-        }
+            // Move the spawner ahead of the player
+            if (player != null)
+            {
+                Vector3 pos = transform.position;
+                pos.x = player.position.x + xOffset;
+                transform.position = pos;
+            }
 
-        timer += Time.deltaTime;
+            timer += Time.deltaTime;
 
-        // Spawn at fixed intervals
-        if (timer >= spawnInterval)
-        {
-            SpawnArcObject();
-            timer = 0f;
+            // Spawn at fixed intervals
+            if (timer >= spawnInterval)
+            {
+                SpawnArcObject();
+                timer = 0f;
+            }
         }
     }
 

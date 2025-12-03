@@ -19,23 +19,49 @@ public class Spawner : MonoBehaviour
     public float spawnRangeX = 4f;
 
     private float timer = 0f;
+    
+    public bool paused = false;
+
+    public void Start()
+    {
+       paused = false;
+    }
+
+    public void Awake()
+    {
+        paused = false;
+    }
+
+    public void Pause()
+    {
+        paused = true;
+    }
+
+    public void Resume()
+    {
+        paused = false;
+    }
 
     void Update()
     {
-        if (player != null)
+        if (!paused)
         {
-            Vector3 pos = transform.position;
-            pos.x = player.position.x + xOffset;
-            transform.position = pos;
-        }
+            if (player != null)
+            {
+                Vector3 pos = transform.position;
+                pos.x = player.position.x + xOffset;
+                transform.position = pos;
+            }
 
-        timer += Time.deltaTime;
+            timer += Time.deltaTime;
 
-        if (timer >= spawnInterval)
-        {
-            SpawnRandomObject();
-            timer = 0f;
+            if (timer >= spawnInterval)
+            {
+                SpawnRandomObject();
+                timer = 0f;
+            }
         }
+        
     }
 
     void SpawnRandomObject()

@@ -13,62 +13,52 @@ public class GoalLine : MonoBehaviour
     
     public GameObject clearParticlePrefab;  // set in Inspector
     public float delay = 4f;
+    private float timer = 0f;
+    private bool isPaused = false;
     
     [Header("Input Fields")]
     [SerializeField] TextMeshProUGUI label;
     [SerializeField] TextMeshProUGUI timeLabel;
     [SerializeField] private int levelId;
     [SerializeField] private AudioClip goalSound;
+    
+    private GameManager gameManager;
 
-    private float startTime;
+    // private float startTime;
     private float levelDuration;
+
+    public void Awake()
+    {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
 
     void Start()
     {
-        startTime = Time.time;
-        GameManager.Instance.ResetGame();
-        GameManager.Instance.setFastestTime( levelId);
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        // startTime = Time.time;
+        gameManager.ResetGame();
+        gameManager.setFastestTime( levelId);
     }
 
     void Update()
     {
-        float timePassed = Time.time - startTime;
-        string formatted = timePassed.ToString("F2");
-        timeLabel.text = $"Time: {formatted} Seconds" ;
+        if (!isPaused)
+        {
+            timer += Time.deltaTime;  // counts only when not paused
+        }
+        
+        timeLabel.text = $"Time: {timer.ToString("F2")} Seconds";
     }
 
-    // private IEnumerator OnTriggerEnter2D(Collider2D other)
-    // {
-    //     if (other.CompareTag("Player"))
-    //     {
-    //         if (goalSound != null)
-    //             AudioSource.PlayClipAtPoint(goalSound, Camera.main.transform.position, 0.6f);
-    //
-    //         // Spawn particle at player's position
-    //         if (clearParticlePrefab != null)
-    //         {
-    //             Instantiate(clearParticlePrefab, other.transform.position, Quaternion.identity);
-    //         }
-    //
-    //         levelDuration = Time.time - startTime;
-    //         string newFastestTime = "";
-    //         if (GameManager.Instance.fastestTime == 0 || levelDuration < GameManager.Instance.fastestTime)
-    //         {
-    //             newFastestTime = $"\nNew time Record!";
-    //         }
-    //         string formatted  = levelDuration.ToString("F2");
-    //         label.text = $"Congratulations!\nLevel Done!\nTime: {formatted} Seconds" + newFastestTime;
-    //
-    //         StartCoroutine(RecordLevelAttempt(formatted));
-    //         
-    //         
-    //         yield return new WaitForSeconds(0.4f);
-    //         
-    //
-    //         // Load next scene after a delay
-    //         Invoke(nameof(LoadNextScene), delay);
-    //     }
-    // }
+    public void Pause()
+    {
+        isPaused = true;
+    }
+
+    public void Resume()
+    {
+        isPaused = false;
+    }
     
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -85,12 +75,12 @@ public class GoalLine : MonoBehaviour
             if (clearParticlePrefab != null)
                 Instantiate(clearParticlePrefab, other.transform.position, Quaternion.identity);
 
-            levelDuration = Time.time - startTime;
-        
-            string formatted = levelDuration.ToString("F2");
+            levelDuration = timer;
+            string formatted = timer.ToString("F2");
+            
             string newFastestTime = "";
 
-            if (GameManager.Instance.fastestTime == 0 || levelDuration < GameManager.Instance.fastestTime)
+            if (gameManager.fastestTime == 0 || levelDuration < GameManager.Instance.fastestTime)
                 newFastestTime = "\nNew time Record!";
 
             label.text = $"Congratulations!\nLevel Done!\nTime: {formatted} Seconds" + newFastestTime;
@@ -98,8 +88,9 @@ public class GoalLine : MonoBehaviour
             // Fire API without blocking game flow
             StartCoroutine(RecordLevelAttempt(formatted));
 
-            yield return new WaitForSeconds(0.4f);
-            Invoke(nameof(LoadNextScene), delay);
+            yield return new WaitForSeconds(0.7f);
+            
+            LoadNextScene();
         }
     }
 

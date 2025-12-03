@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public float fastestTime = 0f;
     
     private ApiHandler apiHandler;
+    private bool paused = false;
 
     private void Awake()
     {
@@ -40,7 +41,21 @@ public class GameManager : MonoBehaviour
         life = 3;
         score = 0;
         apiHandler = GameObject.Find("ApiHandler").GetComponent<ApiHandler>();
-        
+    }
+
+    public void pause()
+    {
+        paused = true;
+    }
+
+    public void resume()
+    {
+        paused = false;
+    }
+
+    public bool isPaused()
+    {
+        return paused;
     }
 
     public void AddScore(int amount)
