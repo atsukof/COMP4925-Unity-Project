@@ -11,6 +11,7 @@ public class LoginLogic : MonoBehaviour
     [Header("Register System")]
     [SerializeField] TMP_InputField username_input;
     [SerializeField] TMP_InputField password_input;
+    [SerializeField] private TextMeshProUGUI feedbackText;
     private LevelManager levelManager;
     
     private string API_BASE_URL = "https://unity-project-backend.onrender.com";
@@ -61,6 +62,10 @@ public class LoginLogic : MonoBehaviour
             AuthManager.SaveTokens(response.data.userId, response.data.username, response.data.accessToken, response.data.refreshToken);
             
             levelManager.LoadMainMenu();
+        }
+        else
+        {
+            feedbackText.text = response.msg;
         }
 
     }

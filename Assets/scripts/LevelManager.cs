@@ -36,11 +36,8 @@ public class LevelManager : MonoBehaviour
 
     public void LoadQuit()
     {
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #endif
         AuthManager.Reset();
-        Application.Quit();
+        SceneManager.LoadScene("Scenes/Login");
     }
 
     // Update is called once per frame
