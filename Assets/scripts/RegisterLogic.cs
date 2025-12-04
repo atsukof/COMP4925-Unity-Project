@@ -14,7 +14,6 @@ public class RegisterLogic : MonoBehaviour
     private LevelManager levelManager;
     private string API_BASE_URL = "https://unity-project-backend.onrender.com";
     
-    
     public void Awake()
     {
         AuthManager.LoadTokens();
@@ -40,6 +39,16 @@ public class RegisterLogic : MonoBehaviour
 
     public void registerUser()
     {
+        
+        string pw = password_input.text;
+        
+        if (!ValidatePassword(pw))
+        {
+            feedbackText.text =
+                "Weak Password! Min. 10 Char and Add special characters!";
+            return;
+        }
+        
         Debug.Log("Request sent!");
         StartCoroutine(Register());
     }
@@ -67,5 +76,16 @@ public class RegisterLogic : MonoBehaviour
         {
             feedbackText.text = response.msg;
         }
+    }
+    
+    private bool ValidatePassword(string pw)
+    {
+        bool lengthCheck = pw.Length >= 10;
+        bool upperCheck = System.Text.RegularExpressions.Regex.IsMatch(pw, "[A-Z]");
+        bool lowerCheck = System.Text.RegularExpressions.Regex.IsMatch(pw, "[a-z]");
+        bool numberCheck = System.Text.RegularExpressions.Regex.IsMatch(pw, "[0-9]");
+        bool symbolCheck = System.Text.RegularExpressions.Regex.IsMatch(pw, "[^A-Za-z0-9]");
+
+        return lengthCheck && upperCheck && lowerCheck && numberCheck && symbolCheck;
     }
 }
